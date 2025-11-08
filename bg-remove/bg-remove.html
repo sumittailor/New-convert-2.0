@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Tools - Merge & Split PDF Files Online | Free PDF Converter</title>
+    <meta name="description" content="Free online PDF tools to merge multiple PDFs into one document and split PDFs into separate pages. Secure, easy to use, and 100% free.">
+    <meta name="keywords" content="merge pdf, split pdf, pdf combiner, pdf splitter, online pdf tools, free pdf tools">
+    <meta name="author" content="PDF Tools">
+    <link rel="canonical" href="https://example.com/pdf-tools">
+    <link rel="stylesheet" href="bg-remove.css">
+   
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  <!-- 02-10-2025 -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>    <body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-file-export"></i>
+                    <span>EasyFileConvert</span>
+                </div>
+                
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-tools"></i> All Tools</a></li>
+                        <li><a href="#"><i class="fas fa-crown"></i> Premium</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> Help</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tool Hero Section -->
+    <section class="tool-hero">
+        <div class="container">
+            <h1>AI Background Remover</h1>
+            <p>Remove image backgrounds automatically with our powerful AI. Get professional results in seconds.</p>
+        </div>
+    </section>
+
+    <!-- Main Tool Section -->
+    <section class="container">
+        <div class="tool-container">
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h2>Upload Your Image</h2>
+                <p>Drag & drop your image here or click to browse</p>
+                <input type="file" id="fileInput" class="file-input" accept="image/*">
+                <label for="fileInput" class="file-label">
+                    <i class="fas fa-folder-open"></i> Choose Image
+                </label>
+                <div class="supported-formats">
+                    Supports: JPG, PNG, WebP (Max 15MB)
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section" id="previewSection">
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <div class="preview-title">Original Image</div>
+                        <div class="image-container" id="originalImageContainer">
+                            <div class="placeholder-text">No image selected</div>
+                        </div>
+                    </div>
+                    <div class="preview-box">
+                        <div class="preview-title">Preview (Background Removed)</div>
+                        <div class="image-container" id="previewImageContainer">
+                            <div class="placeholder-text">Preview will appear here</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="processBtn" style="margin-top: 2rem; padding: 12px 30px;">
+                    <i class="fas fa-magic"></i> Remove Background
+                </button>
+            </div>
+
+            <!-- Processing Section -->
+            <div class="processing-section" id="processingSection">
+                <div class="progress-container">
+                    <div class="processing-spinner">
+                        <i class="fas fa-spinner"></i>
+                    </div>
+                    <div class="processing-text">Processing your image...</div>
+                    <div class="processing-subtext">Our AI is working to remove the background</div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <div class="mode-selector">
+                    <button class="mode-btn active" id="autoModeBtn">Auto Remove</button>
+                    <button class="mode-btn" id="editModeBtn">Manual Edit</button>
+                </div>
+                <div class="results-container">
+                    <div class="result-box">
+                        <div class="result-title">Original Image</div>
+                        <div class="result-image" id="originalResultContainer">
+                            <div class="placeholder-text">No image selected</div>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-title">Background Removed</div>
+                        <div class="result-image" id="resultImageContainer">
+                            <div class="placeholder-text">Result will appear here</div>
+                        </div>
+                        <button class="download-btn" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download Image
+                        </button>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="newImageBtn" style="margin-top: 2rem;">
+                    <i class="fas fa-plus"></i> Process New Image
+                </button>
+            </div>
+
+            <!-- Edit Mode Section -->
+            <div class="edit-section" id="editSection">
+                <div class="mode-selector">
+                    <button class="mode-btn" id="autoModeBtn2">Auto Remove</button>
+                    <button class="mode-btn active" id="editModeBtn2">Manual Edit</button>
+                </div>
+                <div class="edit-container">
+                    <div class="edit-tools">
+                        <div class="tool-group">
+                            <div class="tool-group-title">Edit Tools</div>
+                            <button class="tool-btn active" id="brushTool">
+                                <i class="fas fa-paint-brush"></i>
+                                <span>Brush</span>
+                            </button>
+                            <button class="tool-btn" id="eraserTool">
+                                <i class="fas fa-eraser"></i>
+                                <span>Eraser</span>
+                            </button>
+                            <div class="size-control">
+                                <span>Size:</span>
+                                <input type="range" id="brushSize" min="1" max="50" value="10">
+                            </div>
+                        </div>
+                        <div class="tool-group">
+                            <div class="tool-group-title">Actions</div>
+                            <div class="edit-actions">
+                                <button class="edit-action-btn" id="undoBtn">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Undo</span>
+                                </button>
+                                <button class="edit-action-btn" id="redoBtn">
+                                    <i class="fas fa-redo"></i>
+                                    <span>Redo</span>
+                                </button>
+                                <button class="edit-action-btn" id="resetBtn">
+                                    <i class="fas fa-trash"></i>
+                                    <span>Reset</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tool-group">
+                            <button class="download-btn" id="downloadEditBtn" style="margin-top: 1rem;">
+                                <i class="fas fa-download"></i> Download Edited Image
+                            </button>
+                        </div>
+                    </div>
+                    <div class="edit-canvas-container">
+                        <div class="canvas-wrapper">
+                            <canvas id="editCanvas"></canvas>
+                        </div>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" id="zoomInBtn">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="zoom-btn" id="zoomOutBtn">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <button class="zoom-btn" id="resetZoomBtn">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="newImageBtn2" style="margin-top: 2rem;">
+                    <i class="fas fa-plus"></i> Process New Image
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose Our AI Background Remover</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Process images in seconds with our optimized AI algorithms.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered</h3>
+                    <p>Advanced machine learning for precise background removal.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Secure</h3>
+                    <p>Your images are processed locally and never stored on our servers.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Completely Free</h3>
+                    <p>Remove backgrounds from unlimited images with no watermarks.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </div>
+                    <h3>High Quality</h3>
+                    <p>Maintain original image quality with transparent backgrounds.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>Multiple Formats</h3>
+                    <p>Support for JPG, PNG, and WebP image formats.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EasyFileConvert</h3>
+                    <p>Your all-in-one solution for online file processing tools, fast, reliable and secure.</p>
+                    <!-- New social -->
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="https://facebook.com/" target="_blank" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://linkedin.com/" target="_blank" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://twitter.com/" target="_blank" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://youtube.com/" target="_blank" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+                    <!-- Soical END -->
+                <div class="footer-column">
+                    <h3>Image Tools</h3>
+                    <ul>
+                        <li><a href="#">Image Compressor</a></li>
+                        <li><a href="#">Image Converter</a></li>
+                        <li><a href="#">Image Resizer</a></li>
+                        <li><a href="#">Background Remover</a></li>
+                        <li><a href="#">Image Editor</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>PDF Tools</h3>
+                    <ul>
+                        <li><a href="#">PDF Merger</a></li>
+                        <li><a href="#">PDF Splitter</a></li>
+                        <li><a href="#">PDF Compressor</a></li>
+                        <li><a href="#">PDF to Word</a></li>
+                        <li><a href="#">PDF to JPG</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 EasyFileConvert. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="bg-remove.js"></script>
+</body>
+</html>
